@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('question');
+            $table->text('question')->nullable();
             $table->text('explanation')->nullable();
             $table->enum('is_active', ['0', '1'])->default('1');
+
             $table->foreignId('evaluation_id')->constrained()->onDelete('cascade');
+
             $table->timestamps();
             $table->softDeletes();
         });

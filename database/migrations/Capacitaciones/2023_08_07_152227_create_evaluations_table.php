@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('section_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('course_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->longText('description')->nullable();
+            $table->text('description')->nullable();
             $table->enum('is_active', ['0', '1'])->default('1');
             $table->enum('linkedTo', ['1', '2'])->default('2');
             $table->text('details')->nullable();

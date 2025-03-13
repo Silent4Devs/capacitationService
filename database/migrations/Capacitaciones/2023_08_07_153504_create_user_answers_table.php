@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('user_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('answer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('answer_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('is_correct')->default(false);
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->foreignId('evaluation_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('question_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('evaluation_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_evaluation_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+
             $table->timestamps();
             $table->softDeletes();
         });

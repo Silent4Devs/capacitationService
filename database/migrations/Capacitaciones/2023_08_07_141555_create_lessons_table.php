@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('url');
-            $table->string('iframe');
-            $table->text('description');
+            $table->string('url')->nullable();
+            $table->string('iframe')->nullable();
+            $table->text('description')->nullable();
+            $table->longText('text_lesson')->nullable()->default('text');
 
             $table->unsignedBigInteger('platform_id')->nullable();
             $table->unsignedBigInteger('section_id');
