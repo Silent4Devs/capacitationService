@@ -49,7 +49,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
 
     public function tbFunctionIndexCurso()
     {
-        $courses = Course::select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id')
+        $courses = Course::select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id')
             ->where('user_id', User::getCurrentUser()->id)
             ->latest('id')
             ->get()
@@ -65,9 +65,8 @@ class tbApiControllerInstructorCapacitaciones extends Controller
         $categories = Category::pluck('name', 'id');
         $levels = Level::pluck('name', 'id');
 
-        $usuarios = User::with('empleado')
+        $usuarios = User::where('estatus', 'alta')
             ->get()
-            ->filter(fn($usuario) => $usuario->empleado && $usuario->empleado->estatus === 'alta')
             ->map(fn($usuario) => [
                 'id' => $usuario->id,
                 'name' => $usuario->name
@@ -99,7 +98,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             'description' => 'required',
             'category_id' => 'required',
             'level_id' => 'required',
-            'empleado_id' => 'required',
+            'instructor_id' => 'required',
             // 'file' => 'required',
         ], [
             'subtitle.required' => 'El campo subtitulo es obligatorio',
@@ -109,7 +108,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             'category_id.required' => 'El campo categoría es obligatorio',
             'description.required' => 'El campo descripción es obligatorio',
             'level_id.required' => 'El campo nivel es obligatorio',
-            'empleado_id.required' => 'El campo instructor es obligatorio',
+            'instructor_id.required' => 'El campo instructor es obligatorio',
         ]);
 
         if ($validator->fails()) {
@@ -127,7 +126,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             'category_id' => $request->category_id,
             'level_id' => $request->level_id,
             'user_id' => $user->id,
-            'empleado_id' => $request->empleado_id,
+            'instructor_id' => $request->instructor_id,
         ]);
 
         // if ($request->hasFile('file')) {
@@ -149,7 +148,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
     public function tbFunctionEditCurso($id_course)
     {
         $course = Course::where('id', $id_course)
-            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id')
+            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id')
             ->first(); // Obtener un solo registro
 
         $courseArray = $course ? $course->toArray() : []; // Convertir a array o devolver vacío si no existe
@@ -157,9 +156,8 @@ class tbApiControllerInstructorCapacitaciones extends Controller
         $categories = Category::pluck('name', 'id');
         $levels = Level::pluck('name', 'id');
 
-        $usuarios = User::with('empleado')
+        $usuarios = User::where('estatus', 'alta')
             ->get()
-            ->filter(fn($usuario) => $usuario->empleado && $usuario->empleado->estatus === 'alta')
             ->map(fn($usuario) => [
                 'id' => $usuario->id,
                 'name' => $usuario->name
@@ -192,7 +190,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             'description' => 'required',
             'category_id' => 'required',
             'level_id' => 'required',
-            'empleado_id' => 'required',
+            'instructor_id' => 'required',
             // 'file' => 'required',
             'status' => 'required',
         ], [
@@ -203,7 +201,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             'category_id.required' => 'El campo categoría es obligatorio',
             'description.required' => 'El campo descripción es obligatorio',
             'level_id.required' => 'El campo nivel es obligatorio',
-            'empleado_id.required' => 'El campo instructor es obligatorio',
+            'instructor_id.required' => 'El campo instructor es obligatorio',
         ]);
 
         if ($validator->fails()) {
@@ -220,7 +218,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             'description' => $request->description,
             'category_id' => $request->category_id,
             'level_id' => $request->level_id,
-            'empleado_id' => $request->empleado_id,
+            'instructor_id' => $request->instructor_id,
         ]);
 
         // if ($request->hasFile('file')) {
@@ -242,7 +240,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
     public function tbFunctionShowCurso($id_course)
     {
         $course = Course::where('id', $id_course)
-            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id')
+            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id')
             ->first(); // Obtener un solo registro
 
         $courseArray = $course ? $course->toArray() : []; // Convertir a array o devolver vacío si no existe
@@ -268,7 +266,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
     public function tbFunctionIndexGoals($id_course)
     {
         $course = Course::where('id', $id_course)
-            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id')
+            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id')
             ->first(); // Obtener un solo registro
 
         // $courseArray = $course ? $course->toArray() : []; // Convertir a array o devolver vacío si no existe
@@ -372,7 +370,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
     public function tbFunctionIndexRequirements($id_course)
     {
         $course = Course::where('id', $id_course)
-            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id')
+            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id')
             ->first(); // Obtener un solo registro
 
         $course_requirements = [];
@@ -475,7 +473,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
     public function tbFunctionIndexAudience($id_course)
     {
         $course = Course::where('id', $id_course)
-            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id')
+            ->select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id')
             ->first(); // Obtener un solo registro
 
         // $courseArray = $course ? $course->toArray() : []; // Convertir a array o devolver vacío si no existe
@@ -579,7 +577,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
     public function tbFunctionIndexEstudiantes($id_course)
     {
         // Obtener información del curso
-        $course = Course::select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id')
+        $course = Course::select('id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id')
             ->find($id_course);
 
         if (!$course) {
@@ -588,7 +586,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
 
         // Obtener usuarios inscritos con nombres
         $userInsc = UsuariosCursos::where('course_id', $course->id)
-            ->with('usuarios:id,name,empleado_id') // Optimiza la consulta para traer solo los datos necesarios
+            ->with('usuarios:id,name,instructor_id') // Optimiza la consulta para traer solo los datos necesarios
             ->get()
             ->map(fn($ui) => [
                 'id' => $ui->id,
@@ -607,14 +605,8 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             ->orderBy('name')
             ->get();
 
-        // Obtener empleados activos
-        $empleados = User::select('id', 'name')
-            ->where('estatus', 'alta')
-            ->get()
-            ->keyBy('id'); // Indexamos para búsqueda rápida
-
         // Filtrar usuarios manualmente según empleados
-        $users_manual = $usuariosNoInsc->filter(fn($usuario) => isset($empleados[$usuario->empleado_id]))
+        $users_manual = $usuariosNoInsc
             ->map(fn($usni) => [
                 'id_user' => $usni->id,
                 'name_user' => $usni->name
@@ -643,12 +635,12 @@ class tbApiControllerInstructorCapacitaciones extends Controller
         // Obtener IDs de usuarios ya inscritos en el curso
         $usuariosInscritosIds = UsuariosCursos::where('course_id', $course->id)->pluck('user_id')->toArray();
 
-        // Obtener usuarios no inscritos con sus empleados en una sola consulta
-        $usuariosNoInsc = User::with('empleado')->whereNotIn('id', $usuariosInscritosIds)->orderBy('name')->get();
+        // Obtener usuarios no inscritos en una sola consulta
+        $usuariosNoInsc = User::whereNotIn('id', $usuariosInscritosIds)->orderBy('name')->get();
 
         // Si se seleccionan todos los empleados activos
         if ($request->publico === 'todos') {
-            $usuariosValidos = $usuariosNoInsc->filter(fn($usuario) => $usuario->empleado?->estatus === 'alta');
+            $usuariosValidos = $usuariosNoInsc->filter(fn($usuario) => $usuario->estatus === 'alta');
 
             if ($usuariosValidos->isNotEmpty()) {
                 UsuariosCursos::insert($usuariosValidos->map(fn($usuario) => [
@@ -667,7 +659,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
         if ($request->publico === 'grupo') {
             $usuariosValidos = $usuariosNoInsc->filter(
                 fn($usuario) =>
-                $usuario->empleado?->estatus === 'alta' && $usuario->empleado?->grupo_id == $request->id_grupo
+                $usuario->estatus === 'alta' && $usuario->grupo_id == $request->id_grupo
             );
 
             if ($usuariosValidos->isNotEmpty()) {
@@ -755,7 +747,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
 
     public function tbFunctionIndexSeccionesCurso($id_course)
     {
-        $course = Course::with(['instructor', 'teacher.empleado', 'user.empleado', 'sections_order.lessons'])
+        $course = Course::with(['instructor', 'teacher', 'user', 'sections_order.lessons'])
             ->where('id', $id_course)
             ->firstOrFail();
 
@@ -767,8 +759,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
             'course_rating' => $course->rating,
             'course_certificate' => $course->certificado,
             'colaboradores_inscritos' => $course->students_count,
-            'nombre_instructor' => $course->instructor->name ?? $course->teacher->empleado->name ?? '',
-            'imagen_instructor' => optional($course->user->empleado)->avatar_ruta ? $this->encodeSpecialCharacters($course->user->empleado->avatar_ruta) : '',
+            'nombre_instructor' => $course->instructor->name ?? $course->teacher->name ?? '',
         ];
 
         foreach ($course->sections_order as $section) {
@@ -791,7 +782,7 @@ class tbApiControllerInstructorCapacitaciones extends Controller
 
     public function tbFunctionStoreSeccionesCurso(Request $request, $id_course)
     {
-        $course = Course::select(['id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'empleado_id'])
+        $course = Course::select(['id', 'title', 'slug', 'subtitle', 'description', 'category_id', 'level_id', 'user_id', 'instructor_id'])
             ->findOrFail($id_course);
 
         $this->saveSections($request->input('sections', []), $request->input('lessons', []), $id_course);

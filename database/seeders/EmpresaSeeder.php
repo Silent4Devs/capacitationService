@@ -28,25 +28,7 @@ class EmpresaSeeder extends Seeder
                 'facebook' => 'https://www.facebook.com/techsolutions',
                 'twitter' => 'https://twitter.com/techsolutions',
                 'certificado' => 1,
-            ],
-            [
-                'empresa' => 'Innovatech Corp',
-                'direccion' => 'Calle 456, Zona Empresarial, Ciudad',
-                'telefono' => '555-987-6543',
-                'correo' => 'info@innovatech.com',
-                'pagina_web' => 'https://www.innovatech.com',
-                'logotipo' => 'https://via.placeholder.com/200',
-                'razon_social' => 'Innovatech Corporation',
-                'rfc' => Str::upper(Str::random(10)),
-                'representante_legal' => 'María Gómez',
-                'num_empleados' => 500,
-                'tamano' => 'Grande',
-                'linkedln' => 'https://www.linkedin.com/company/innovatech',
-                'youtube' => 'https://www.youtube.com/innovatech',
-                'facebook' => 'https://www.facebook.com/innovatech',
-                'twitter' => 'https://twitter.com/innovatech',
-                'certificado' => 0,
-            ],
+            ]
         ]);
     }
 }

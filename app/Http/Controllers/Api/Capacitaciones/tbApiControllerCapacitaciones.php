@@ -61,7 +61,6 @@ class tbApiControllerCapacitaciones extends Controller
             'course_progress' => $course_user->completado,
             'course_certificate' => $course_user->curso->certificado,
             'nombre_instructor' => $ultimo->cursos->user->name,
-            'imagen_instructor' => isset($curso->user->empleado->avatar_ruta) ? $this->encodeSpecialCharacters($curso->user->empleado->avatar_ruta) : '',
         ];
 
         return response(json_encode(
@@ -90,7 +89,6 @@ class tbApiControllerCapacitaciones extends Controller
                 'course_progress' => $cou->completado,
                 'course_certificate' => $cou->curso->certificado,
                 'nombre_instructor' => $cu->cursos->instructor->name ?? $cu->cursos->teacher->name,
-                'imagen_instructor' => isset($cu->cursos->user->empleado->avatar_ruta) ? $this->encodeSpecialCharacters($cu->cursos->user->empleado->avatar_ruta) : '',
             ];
         }
 
@@ -121,8 +119,7 @@ class tbApiControllerCapacitaciones extends Controller
                 'course_rating' => $course->rating,
                 'course_certificate' => $course->certificado,
                 'colaboradores_inscritos' => $course->students_count,
-                'nombre_instructor' => $course->instructor->name ?? $course->teacher->empleado->name,
-                'imagen_instructor' => isset($course->user->empleado->avatar_ruta) ? $this->encodeSpecialCharacters($course->user->empleado->avatar_ruta) : '',
+                'nombre_instructor' => $course->instructor->name,
                 // 'course_progress' => $course->advance, //No util, no esta inscrito a estos.
             ];
 
@@ -178,8 +175,7 @@ class tbApiControllerCapacitaciones extends Controller
             'course_rating' => $course->rating,
             'course_certificate' => $course->certificado,
             'colaboradores_inscritos' => $course->students_count,
-            'nombre_instructor' => $course->instructor->name ?? $course->teacher->empleado->name,
-            'imagen_instructor' => isset($course->user->empleado->avatar_ruta) ? $this->encodeSpecialCharacters($course->user->empleado->avatar_ruta) : '',
+            'nombre_instructor' => $course->instructor->name,
         ];
 
         $courses_lessons = $course->lessons;
@@ -320,7 +316,6 @@ class tbApiControllerCapacitaciones extends Controller
             'subtitle' => $course->subtitle,
             'course_progress' => $course_user->completado,
             'nombre_instructor' => $course->instructor->name,
-            'imagen_instructor' => isset($course->user->empleado->avatar_ruta) ? $this->encodeSpecialCharacters($course->user->empleado->avatar_ruta) : '',
         ];
 
         foreach ($course->sections_order as $keySections => $section) {
@@ -405,7 +400,7 @@ class tbApiControllerCapacitaciones extends Controller
     public function tbFunctionCursoEvaluacion($curso_id, $evaluation_id)
     {
         $user = User::getCurrentUser();
-        $course = Course::with('instructor.empleado')->findOrFail($curso_id);
+        $course = Course::with('instructor')->findOrFail($curso_id);
         $evaluation = Evaluation::with('questions.answers')->findOrFail($evaluation_id);
 
         $json_preguntas_curso = [
@@ -423,9 +418,6 @@ class tbApiControllerCapacitaciones extends Controller
             'title' => $course->title,
             'subtitle' => $course->subtitle,
             'nombre_instructor' => $course->instructor->name,
-            'imagen_instructor' => isset($course->user->empleado->avatar_ruta)
-                ? $this->encodeSpecialCharacters($course->user->empleado->avatar_ruta)
-                : '',
         ];
     }
 

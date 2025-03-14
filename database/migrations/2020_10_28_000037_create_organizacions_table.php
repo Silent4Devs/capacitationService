@@ -17,6 +17,7 @@ class CreateOrganizacionsTable extends Migration
             $table->string('pagina_web')->nullable();
             $table->string('logotipo')->nullable();
             $table->string('razon_social')->nullable();
+            $table->string('giro')->nullable();
             $table->string('rfc')->nullable();
             $table->string('representante_legal')->nullable();
             $table->integer('num_empleados')->nullable();
