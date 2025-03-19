@@ -39,6 +39,9 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
             $table->foreign('price_id')->references('id')->on('prices')->onDelete('set null');
 
+            $table->boolean('publico')->default(false);
+            $table->string('external_id_organizacion');
+
             $table->timestamps();
             $table->softDeletes();
         });

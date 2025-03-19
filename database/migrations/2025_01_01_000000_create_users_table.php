@@ -20,6 +20,12 @@ return new class extends Migration
             // $table->string('foto')->nullable();
             $table->unsignedBigInteger('grupo_id');
             $table->string('password');
+
+            $table->boolean('instructor')->default(false);
+
+            $table->string('external_user_id_4you');
+            $table->string('external_id_organizacion');
+
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

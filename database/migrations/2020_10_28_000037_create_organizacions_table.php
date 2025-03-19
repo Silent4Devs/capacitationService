@@ -28,6 +28,8 @@ class CreateOrganizacionsTable extends Migration
             $table->string('twitter')->nullable();
             $table->tinyInteger('certificado')->default(1);
 
+            $table->string('external_id_organizacion');
+
             $table->timestamps();
             $table->softDeletes();
         });
